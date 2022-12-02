@@ -15,12 +15,23 @@ django.setup()
 # Import models from hats_rest, here.
 # from shoes_rest.models import Something
 
+
+def get_bins():
+    url = "http://wardrobe:8100/api/bins/"
+    response = requests.get(url)
+    content = json.loads(response.content)
+    for binVO in content["bin"]:
+        BinVO.objects.update_or_create(
+            import_href=binVO["href"],
+            defaults={"name": binVO["name"]},
+        )
+
+
 def poll():
     while True:
         print('Shoes poller polling for data')
         try:
-            # Write your polling logic, here
-            pass
+            get_bins()
         except Exception as e:
             print(e, file=sys.stderr)
         time.sleep(60)
@@ -28,14 +39,3 @@ def poll():
 
 if __name__ == "__main__":
     poll()
-
-
-# def get_bins():
-#     url = "http://wardrobe:8100/api/bins/"
-#     response = requests.get(url)
-#     content = json.loads(response.content)
-#     for conference in content["conferences"]:
-#         BinVO.objects.update_or_create(
-#             import_href=bin["href"],
-#             defaults={"name": bin["name"]},
-#         )
