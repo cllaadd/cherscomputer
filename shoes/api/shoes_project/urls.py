@@ -20,5 +20,5 @@ from .views import api_show_shoe, api_list_shoes
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shoes/', api_list_shoes, name="api_list_shoes"),
-    path('shoes/<int:pk>/', api_show_shoe, name="api_show_shoe")
+    path('shoes/<int:id>/', api_show_shoe, name="api_show_shoe")
 ]

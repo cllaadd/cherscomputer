@@ -41,16 +41,20 @@ def api_list_shoes(request):
             safe=False,
         )
 
-@require_http_methods(["GET"])
-def api_show_shoe(request,pk):
-    try:
-        shoe = Shoe.objects.get(id=pk)
-        return JsonResponse(
-            shoe,
-            encoder=ShoeDetailEncoder,
-            safe=False
-        )
-    except Shoe.DoesNotExist:
-        response = JsonResponse({"message": "Does not exist"})
-        response.status_code = 404
-        return response
+@require_http_methods(["GET","DELETE"])
+def api_show_shoe(request,id):
+    if request.method == "GET":
+        try:
+            shoe = Shoe.objects.get(id=id)
+            return JsonResponse(
+                shoe,
+                encoder=ShoeDetailEncoder,
+                safe=False
+            )
+        except Shoe.DoesNotExist:
+            response = JsonResponse({"message": "Does not exist"})
+            response.status_code = 404
+            return response
+    else:
+        count, _ = Shoe.objects.filter(id=id).delete()
+        return JsonResponse({"deleted": count > 0})
