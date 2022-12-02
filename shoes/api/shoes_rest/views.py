@@ -25,7 +25,7 @@ class ShoeDetailEncoder(ModelEncoder):
 
 
 @require_http_methods(["GET","POST"])
-def api_list_shoes(request):
+def api_shoes(request):
     if request.method == "GET":
         shoes = Shoe.objects.all()
         return JsonResponse(
@@ -42,7 +42,7 @@ def api_list_shoes(request):
         )
 
 @require_http_methods(["GET","DELETE"])
-def api_show_shoe(request,id):
+def api_shoe(request,id):
     if request.method == "GET":
         try:
             shoe = Shoe.objects.get(id=id)
