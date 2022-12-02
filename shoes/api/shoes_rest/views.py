@@ -5,6 +5,11 @@ import json
 from common.json import ModelEncoder
 from .models import Shoe, BinVO
 
+
+class BinVOEncoder(ModelEncoder):
+    model = BinVO
+    properties = ["closet_name", "bin_number", "bin_size"]
+
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
     properties = ["id","manufacturer","color","model_name"]
@@ -12,6 +17,7 @@ class ShoeListEncoder(ModelEncoder):
 class ShoeDetailEncoder(ModelEncoder):
     model = Shoe
     properties = [
+        "id",
         "manufacturer",
         "color",
         "model_name",
@@ -28,7 +34,24 @@ def api_list_shoes(request):
             encoder=ShoeListEncoder,
         )
     else:
+        content = json.loads(request.body)
+        shoe = Shoe.objects.create(**content)
         return JsonResponse(
-                {"message": "Did not work"},
-                status=400,
-            )
+            shoe,
+            encoder=ShoeDetailEncoder,
+            safe=False,
+        )
+
+@require_http_methods(["GET"])
+def api_show_shoe(request,pk):
+    try:
+        shoe = Shoe.objects.get(id=pk)
+        return JsonResponse(
+            shoe,
+            encoder=ShoeDetailEncoder,
+            safe=False
+        )
+    except Shoe.DoesNotExist:
+        response = JsonResponse({"message": "Does not exist"})
+        response.status_code = 404
+        return response
