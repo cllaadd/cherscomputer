@@ -21,7 +21,6 @@ class ShoeDetailEncoder(ModelEncoder):
         "manufacturer",
         "color",
         "model_name",
-        "picture_url",
     ]
 
 
