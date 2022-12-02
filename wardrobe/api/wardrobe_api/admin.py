@@ -5,7 +5,7 @@ from .models import Location, Bin
 class LocationAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Location)
+@admin.register(Bin)
 class BinAdmin(admin.ModelAdmin):
     pass
 
