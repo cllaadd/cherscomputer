@@ -8,6 +8,3 @@ class LocationAdmin(admin.ModelAdmin):
 @admin.register(Bin)
 class BinAdmin(admin.ModelAdmin):
     pass
-
-
-# Register your models here.
