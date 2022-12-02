@@ -18,7 +18,7 @@ class Shoe(models.Model):
         )
 
     def __str__(self):
-        return self.color + " " + self.manufacturer + " " + self.model_name
+        return f'{self.color} {self.manufacturer} {self.model_name}'
 
     class Meta:
         ordering = ("manufacturer",)
