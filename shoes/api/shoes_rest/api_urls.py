@@ -5,5 +5,5 @@ from .views import api_shoe, api_shoes
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shoes/', api_shoes, name="api_shoes"),
-    path('shoes/<int:id>/', api_shoe, name="api_shoe")
+    path('shoes/<int:id>/', api_shoe, name="api_shoe"),
 ]
