@@ -6,9 +6,9 @@ from common.json import ModelEncoder
 from .models import Shoe, BinVO
 
 
-class BinVOEncoder(ModelEncoder):
+class BinVODetailEncoder(ModelEncoder):
     model = BinVO
-    properties = ["closet_name", "bin_number", "bin_size"]
+    properties = ["closet_name", "bin_number", "bin_size", "import_href",]
 
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
@@ -21,11 +21,15 @@ class ShoeDetailEncoder(ModelEncoder):
         "manufacturer",
         "color",
         "model_name",
+        "bin",
     ]
+    encoders = {
+        "bin" : BinVODetailEncoder(),
+    }
 
 
 @require_http_methods(["GET","POST"])
-def api_shoes(request):
+def api_shoes(request, bin_vo_id=None):
     if request.method == "GET":
         shoes = Shoe.objects.all()
         return JsonResponse(
@@ -33,7 +37,19 @@ def api_shoes(request):
             encoder=ShoeListEncoder,
         )
     else:
+
         content = json.loads(request.body)
+
+        try:
+            bin_href = f"/api/bins/{bin_vo_id}/"
+            bin = BinVO.objects.get(import_href=bin_href)
+            content["bin"] = bin
+        except BinVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid bin id"},
+                status=400,
+            )
+
         shoe = Shoe.objects.create(**content)
         return JsonResponse(
             shoe,
