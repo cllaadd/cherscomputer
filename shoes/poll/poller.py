@@ -17,13 +17,16 @@ django.setup()
 
 
 def get_bins():
-    url = "http://wardrobe:8100/api/bins/"
-    response = requests.get(url)
+    response = requests.get("http://wardrobe:8100/api/bins/")
     content = json.loads(response.content)
     for binVO in content["bin"]:
         BinVO.objects.update_or_create(
             import_href=binVO["href"],
-            defaults={"name": binVO["name"]},
+            defaults={
+                "closet_name": binVO["closet_name"]
+                    "bin_number":binVO["bin_number"],
+                    "bin_size":binVO["bin_size"],
+            }
         )
 
 
