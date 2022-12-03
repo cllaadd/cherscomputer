@@ -6,14 +6,11 @@ import json
 import requests
 import json
 
-from shoes_rest.models import BinVO
-
 sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shoes_project.settings")
 django.setup()
 
-# Import models from hats_rest, here.
-# from shoes_rest.models import Something
+from shoes_rest.models import BinVO
 
 
 def get_bins():
