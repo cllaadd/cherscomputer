@@ -6,7 +6,7 @@ import json
 import requests
 import json
 
-from shoes.api.shoes_rest.models import BinVO
+from shoes_rest.models import BinVO
 
 sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shoes_project.settings")
@@ -17,7 +17,7 @@ django.setup()
 
 
 def get_bins():
-    response = requests.get("http://wardrobe:8100/api/bins/")
+    response = requests.get("http://wardrobe-api:8000/api/bins/")
     content = json.loads(response.content)
     for binVO in content["bins"]:
         BinVO.objects.update_or_create(
