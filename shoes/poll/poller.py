@@ -17,7 +17,7 @@ django.setup()
 
 
 def get_bins():
-    response = requests.get("http://wardrobe:8100/api/bins/")
+    response = requests.get("http://wardrobe-api:8000/api/bins/")
     content = json.loads(response.content)
     for binVO in content["bins"]:
         BinVO.objects.update_or_create(
