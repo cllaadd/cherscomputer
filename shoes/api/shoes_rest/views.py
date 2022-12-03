@@ -6,6 +6,9 @@ import json
 from common.json import ModelEncoder
 from .models import Shoe, BinVO
 
+# class BinVOListEncoder(ModelEncoder):
+#     model = BinVO
+#     properties = ["closet_name", "bin_number",]
 
 class BinVODetailEncoder(ModelEncoder):
     model = BinVO

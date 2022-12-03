@@ -1,6 +1,5 @@
 import json
 import requests
-import os
 
 # PEXELS_API_KEY = os.environ["PEXELS_API_KEY"]
 
