@@ -1,11 +1,14 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from .acls import get_photo
+# from .acls import get_photo
 import json
 
 from common.json import ModelEncoder
 from .models import Shoe, BinVO
 
+# class BinVOListEncoder(ModelEncoder):
+#     model = BinVO
+#     properties = ["closet_name", "bin_number",]
 
 class BinVODetailEncoder(ModelEncoder):
     model = BinVO
@@ -39,8 +42,8 @@ def api_shoes(request, bin_vo_id=None):
         )
     else:
         content = json.loads(request.body)
-        photo = get_photo(content["color"], content["manufacturer"], content["model_name"])
-        content.update(photo)
+        # photo = get_photo(content["color"], content["manufacturer"], content["model_name"])
+        # content.update(photo)
 
         try:
             bin_href = f"/api/bins/{bin_vo_id}/"
