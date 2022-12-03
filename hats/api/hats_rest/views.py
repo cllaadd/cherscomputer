@@ -4,6 +4,7 @@ from .models import LocationVO, Hat
 from django.views.decorators.http import require_http_methods
 from django.http import JsonResponse
 import json
+# from .acls import get_photo
 
 class LocationVODetailEncoder(ModelEncoder):
     model = LocationVO
@@ -59,6 +60,8 @@ def api_hats(request, location_vo_id=None):
                 status=400,
             )
 
+        # photo = get_photo(content["color"], content["style"])
+        # content.update(photo)
         hat = Hat.objects.create(**content)
         return JsonResponse(
             hat,
@@ -66,7 +69,7 @@ def api_hats(request, location_vo_id=None):
             safe=False,
         )
 
-@require_http_methods("GET", "DELETE")
+@require_http_methods(["GET", "DELETE"])
 def api_hat(request, id):
     if request.method == "POST":
         hat=Hat.objects.get(id=id)

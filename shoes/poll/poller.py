@@ -6,7 +6,7 @@ import json
 import requests
 import json
 
-from api.shoes_rest.models import BinVO
+from shoes_rest.models import BinVO
 
 sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "shoes_project.settings")
@@ -23,7 +23,7 @@ def get_bins():
         BinVO.objects.update_or_create(
             import_href=binVO["href"],
             defaults={
-                "closet_name": binVO["closet_name"]
+                "closet_name": binVO["closet_name"],
                     "bin_number":binVO["bin_number"],
                     "bin_size":binVO["bin_size"],
             }
