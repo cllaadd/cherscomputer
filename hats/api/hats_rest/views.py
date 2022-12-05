@@ -29,8 +29,8 @@ class HatDetailEncoder(ModelEncoder):
         "location": LocationVODetailEncoder(),
     }
 
-    def get_extre_data(self, o):
-        return {"location": o.location.closet_name}
+    # def get_extra_data(self, o):
+    #     return {"location": o.location.closet_name}
 
 class HatListEncoder(ModelEncoder):
     model = Hat
@@ -39,9 +39,14 @@ class HatListEncoder(ModelEncoder):
         "fabric",
         "style",
         "color",
+        "picture_url",
+        "location",
     ]
-    def get_extre_data(self, o):
-        return {"location": o.location.closet_name}
+    encoders = {
+        "location": LocationVODetailEncoder(),
+    }
+    # def get_extra_data(self, o):
+    #     return {"location": o.location.closet_name}
 
 
 @require_http_methods(["GET", "POST"])
