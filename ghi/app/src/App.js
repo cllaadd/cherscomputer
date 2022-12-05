@@ -18,7 +18,10 @@ function App(props) {
           <Route path="hats">
             <Route path="" element={<HatsList hats={props.hats} />} />
             <Route path="new-hat" element= {<HatForm />} />
+<<<<<<< HEAD
             {/* <Route path="delete-hat" element= {<DeleteHat />} /> */}
+=======
+>>>>>>> 5cee4de4dd450f6cda276e86e70eb694178e2a7f
             </Route>
           <Route path="shoes">
             <Route path="" element={<ShoesList />} />
