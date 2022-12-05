@@ -11,11 +11,7 @@ class HatForm extends React.Component {
             pictureUrl: '',
             locations: [],
         }
-        this.handleFabricChange = this.handleFabricChange.bind(this);
-        this.handleStyleChange = this.handleStyleChange.bind(this);
-        this.handleColorChange = this.handleColorChange.bind(this);
-        this.handlePictureUrlChange = this.handlePictureUrlChange(this);
-        this.handleLocationChange = this.handleLocationChange(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -51,30 +47,31 @@ class HatForm extends React.Component {
         }
     }
 
-    handleFabricChange(event) {
+    handleInputChange(event) {
         const value = event.target.value;
-        this.setState({fabric: value})
+        this.setState({[event.target.id]: value})
     }
 
-    handleStyleChange(event) {
-        const value = event.target.value;
-        this.setState({style: value})
-    }
+    // handleStyleChange(event) {
+    //     const value = event.target.value;
+    //     this.setState({style: value})
+    // }
 
-    handleColorChange(event) {
-        const value = event.target.value;
-        this.setState({color: value})
-    }
+    // handleColorChange(event) {
+    //     const value = event.target.value;
+    //     this.setState({color: value})
+    // }
 
-    handlePictureUrlChange(event) {
-            const value = event.target.value;
-            this.setState({pictureUrl: value})
-    }
+    // // handlePictureUrlChange(event) {
+    // //     console.log("pictureurl", event)
+    // //         const value = event.target.value;
+    // //         this.setState({pictureUrl: value})
+    // // }
 
-    handleLocationChange(event) {
-        const value = event.target.value;
-        this.setState({location: value})
-    }
+    // handleLocationChange(event) {
+    //     const value = event.target.value;
+    //     this.setState({location: value})
+    // }
 
     async componentDidMount() {
         const url = 'http://localhost:8100/api/locations/';
@@ -95,28 +92,28 @@ class HatForm extends React.Component {
                   <h1>Create a new conference</h1>
                   <form onSubmit={this.handleSubmit} id="create-hat-form">
                     <div className="form-floating mb-3">
-                      <input onChange={this.handleFabricChange} value={this.state.fabric} placeholder="Fabric" required type="text" name="fabric" id="fabric" className="form-control" />
+                      <input onChange={this.handleInputChange} value={this.state.fabric} placeholder="Fabric" required type="text" name="fabric" id="fabric" className="form-control" />
                       <label htmlFor="fabric">Fabric</label>
                     </div>
                     <div className="form-floating mb-3">
-                      <input onChange={this.handleStyleChange} value={this.state.style} placeholder="Style" required type="text" name="style" id="style" className="form-control" />
+                      <input onChange={this.handleInputChange} value={this.state.style} placeholder="Style" required type="text" name="style" id="style" className="form-control" />
                       <label htmlFor="style">Style</label>
                     </div>
                     <div className="form-floating mb-3">
-                      <input onChange={this.handleColorChange} value={this.state.color} placeholder="Color" required type="text" name="color" id="color" className="form-control" />
+                      <input onChange={this.handleInputChange} value={this.state.color} placeholder="Color" required type="text" name="color" id="color" className="form-control" />
                       <label htmlFor="color">Color</label>
                     </div>
                     <div className="form-floating mb-3">
-                      <input onChange={this.handlePictureUrlChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="text" name="picture_url" id="picture_url" className="form-control" />
+                      <input onChange={this.handleInputChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="url" name="picture_url" id="picture_url" className="form-control" />
                       <label htmlFor="picture_url">Picture URL</label>
                     </div>
                     <div className="mb-3">
-                      <select onChange={this.handleLocationChange} required id="location"  name="location" className="form-select">
+                      <select onChange={this.handleInputChange} required id="location"  name="location" className="form-select">
                       <option value="">Choose a location</option>
                           {this.state.locations?.map(location => {
                               return (
                                   <option key = {location.id} value={location.id}>
-                                      {location.name}
+                                      {location.closet_name}
                                   </option>
                               )
                               })};
