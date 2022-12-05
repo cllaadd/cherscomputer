@@ -11,6 +11,7 @@ class HatForm extends React.Component {
             pictureUrl: '',
             locations: [],
         }
+        this.handlePictureUrlChange = this.handlePictureUrlChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,7 +22,6 @@ class HatForm extends React.Component {
         data.picture_url = data.pictureUrl
         delete data.pictureUrl;
         delete data.locations;
-        console.log(data);
 
         const hatUrl = `http://localhost:8090/api/locations/${data.location}/hats/`;
         const fetchConfig = {
@@ -34,7 +34,6 @@ class HatForm extends React.Component {
         const response = await fetch(hatUrl, fetchConfig);
         if (response.ok) {
             const newHat = await response.json();
-            console.log(newHat);
 
             const cleared = {
                 fabric: '',
@@ -52,26 +51,10 @@ class HatForm extends React.Component {
         this.setState({[event.target.id]: value})
     }
 
-    // handleStyleChange(event) {
-    //     const value = event.target.value;
-    //     this.setState({style: value})
-    // }
-
-    // handleColorChange(event) {
-    //     const value = event.target.value;
-    //     this.setState({color: value})
-    // }
-
-    // // handlePictureUrlChange(event) {
-    // //     console.log("pictureurl", event)
-    // //         const value = event.target.value;
-    // //         this.setState({pictureUrl: value})
-    // // }
-
-    // handleLocationChange(event) {
-    //     const value = event.target.value;
-    //     this.setState({location: value})
-    // }
+    handlePictureUrlChange(event) {
+        const value = event.target.value;
+        this.setState({pictureUrl: value})
+    }
 
     async componentDidMount() {
         const url = 'http://localhost:8100/api/locations/';
@@ -89,7 +72,7 @@ class HatForm extends React.Component {
             <div className="row">
               <div className="offset-3 col-6">
                 <div className="shadow p-4 mt-4">
-                  <h1>Create a new conference</h1>
+                  <h1>Tell me more about your hat!</h1>
                   <form onSubmit={this.handleSubmit} id="create-hat-form">
                     <div className="form-floating mb-3">
                       <input onChange={this.handleInputChange} value={this.state.fabric} placeholder="Fabric" required type="text" name="fabric" id="fabric" className="form-control" />
@@ -104,7 +87,7 @@ class HatForm extends React.Component {
                       <label htmlFor="color">Color</label>
                     </div>
                     <div className="form-floating mb-3">
-                      <input onChange={this.handleInputChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="url" name="picture_url" id="picture_url" className="form-control" />
+                      <input onChange={this.handlePictureUrlChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="url" name="picture_url" id="picture_url" className="form-control" />
                       <label htmlFor="picture_url">Picture URL</label>
                     </div>
                     <div className="mb-3">

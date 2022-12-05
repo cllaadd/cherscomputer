@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import {useEffect, useState} from 'react';
 
 function HatsList(props) {
     const [hats, setHats] = useState([])
@@ -7,15 +8,20 @@ function HatsList(props) {
         const response = await fetch('http://localhost:8090/api/hats/')
         const data = await response.json()
 
-        setJokes(data)
+        setHats(data)
     }
 
     const handleDelete = async(id) => {
         const response = await fetch(`http://localhost:8090/api/hats/${id}/`, {method:"DELETE"})
         const data = await response.json()
         getData();
-        window.location = "/new"
+        window.location = "/hats"
     }
+
+    useEffect(()=> {
+        getData();
+      }, [])
+
     return (
         <div>
             <table className="table table-striped">
@@ -37,7 +43,7 @@ function HatsList(props) {
                                 <td>{hat.color}</td>
                                 <td>{hat.fabric}</td>
                                 <td>{hat.style}</td>
-                                <td><img src={hat.picture_url} className="img-fluid"/></td>
+                                <td><img src={hat.picture_url} className=" pic img-fluid"/></td>
                                 <td>{hat.location.closet_name}</td>
                                 <td>
                                     <button className="btn btn-danger m-2" onClick={()=> {handleDelete(hat.id)}}>Delete</button>
@@ -47,8 +53,7 @@ function HatsList(props) {
                     })}
                 </tbody>
             </table>
-            <NavLink className="btn btn-primary" id="new-hat-link" aria-current="page" to ="new-hat"> Create a Hat</NavLink>
-            <NavLink className="btn btn-primary" id="delete-hat-link" aria-current="page" to ="delete-hat"> Delete a Hat</NavLink>
+            <NavLink className="btn btn-primary" id="new-hat-link" aria-current="page" to ="new-hat"> New Hat</NavLink>
         </div>
     );
 }

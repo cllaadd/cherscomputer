@@ -18,7 +18,6 @@ function App(props) {
           <Route path="hats">
             <Route path="" element={<HatsList hats={props.hats} />} />
             <Route path="new-hat" element= {<HatForm />} />
-            <Route path="delete-hat" element= {<DeleteHat />} />
             </Route>
           <Route path="shoes">
             <Route path="" element={<ShoesList />} />
