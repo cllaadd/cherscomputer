@@ -23,6 +23,7 @@ class HatForm extends React.Component {
         event.preventDefault();
         const data = {...this.state};
         data.picture_url = data.pictureUrl
+        delete data.pictureUrl;
         delete data.locations;
         console.log(data);
 
@@ -66,8 +67,8 @@ class HatForm extends React.Component {
     }
 
     handlePictureUrlChange(event) {
-        const value = event.target.value;
-        this.setState({pictureUrl: value})
+            const value = event.target.value;
+            this.setState({pictureUrl: value})
     }
 
     handleLocationChange(event) {
