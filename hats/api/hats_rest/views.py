@@ -18,6 +18,7 @@ class LocationVODetailEncoder(ModelEncoder):
 class HatDetailEncoder(ModelEncoder):
     model = Hat
     properties = [
+        "id",
         "fabric",
         "style",
         "color",
@@ -28,13 +29,20 @@ class HatDetailEncoder(ModelEncoder):
         "location": LocationVODetailEncoder(),
     }
 
+    def get_extre_data(self, o):
+        return {"location": o.location.closet_name}
+
 class HatListEncoder(ModelEncoder):
     model = Hat
     properties = [
+        "id",
         "fabric",
         "style",
-        "color"
+        "color",
     ]
+    def get_extre_data(self, o):
+        return {"location": o.location.closet_name}
+
 
 @require_http_methods(["GET", "POST"])
 def api_hats(request, location_vo_id=None):
@@ -42,7 +50,9 @@ def api_hats(request, location_vo_id=None):
         if location_vo_id == None:
             hats = Hat.objects.all()
         else:
-            hats = Hat.objects.filter(location=location_vo_id)
+            location_href = f"/api/locations/{location_vo_id}/"
+            location = LocationVO.objects.get(import_href=location_href)
+            hats = Hat.objects.filter(location=location)
         return JsonResponse(
             {"hats": hats},
             encoder = HatListEncoder,
@@ -71,7 +81,7 @@ def api_hats(request, location_vo_id=None):
 
 @require_http_methods(["GET", "DELETE"])
 def api_hat(request, id):
-    if request.method == "POST":
+    if request.method == "GET":
         hat=Hat.objects.get(id=id)
         return JsonResponse(
             hat,
