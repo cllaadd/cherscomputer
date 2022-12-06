@@ -16,7 +16,10 @@ class BinVODetailEncoder(ModelEncoder):
 
 class ShoeListEncoder(ModelEncoder):
     model = Shoe
-    properties = ["id","manufacturer","color","model_name"]
+    properties = ["id","manufacturer","color","model_name","bin"]
+    encoders = {
+        "bin" : BinVODetailEncoder(),
+    }
 
 class ShoeDetailEncoder(ModelEncoder):
     model = Shoe
