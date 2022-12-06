@@ -35,7 +35,12 @@ class ShoeDetailEncoder(ModelEncoder):
 @require_http_methods(["GET","POST"])
 def api_shoes(request, bin_vo_id=None):
     if request.method == "GET":
-        shoes = Shoe.objects.all()
+        if bin_vo_id == None:
+            shoes = Shoe.objects.all()
+        else:
+            bin_href = f"/api/bins/{bin_vo_id}/"
+            bin = BinVO.objects.get(import_href=bin_href)
+            shoes = Shoe.objects.filter(bin=bin)
         return JsonResponse(
             {"shoes": shoes},
             encoder=ShoeListEncoder,
