@@ -1,14 +1,13 @@
 import { NavLink } from "react-router-dom";
 import {useEffect, useState} from 'react';
 
-function HatsList(props) {
+function HatsList() {
     const [hats, setHats] = useState([])
 
     const getData = async() => {
         const response = await fetch('http://localhost:8090/api/hats/')
         const data = await response.json()
-
-        setHats(data)
+        setHats(data.hats)
     }
 
     const handleDelete = async(id) => {
@@ -36,7 +35,7 @@ function HatsList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.hats?.map(hat => {
+                    {hats?.map(hat => {
                         console.log(hat)
                         return (
                             <tr key={hat.id}>
