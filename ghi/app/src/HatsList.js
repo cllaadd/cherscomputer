@@ -36,7 +36,6 @@ function HatsList() {
                 </thead>
                 <tbody>
                     {hats?.map(hat => {
-                        console.log(hat)
                         return (
                             <tr key={hat.id}>
                                 <td>{hat.color}</td>
