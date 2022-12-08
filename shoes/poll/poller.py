@@ -20,9 +20,7 @@ def get_bins():
         BinVO.objects.update_or_create(
             import_href=binVO["href"],
             defaults={
-                "closet_name": binVO["closet_name"],
-                    "bin_number":binVO["bin_number"],
-                    "bin_size":binVO["bin_size"],
+                "closet_name": binVO["closet_name"]
             }
         )
 

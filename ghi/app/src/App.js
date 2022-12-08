@@ -13,14 +13,17 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<MainPage />} />
+        
           <Route path="hats">
             <Route path="" element={<HatsList />} />
-            <Route path="new-hat" element= {<HatForm />} />
-            </Route>
+            <Route path="new" element= {<HatForm />} />
+          </Route>
+
           <Route path="shoes">
             <Route path="" element={<ShoesList/>} />
-            <Route path="new-shoe" element= {<ShoeForm />} />
+            <Route path="new" element= {<ShoeForm />} />
           </Route>
+
         </Routes>
       </div>
     </BrowserRouter>

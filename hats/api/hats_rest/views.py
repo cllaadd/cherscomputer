@@ -52,7 +52,13 @@ def api_hats(request, location_vo_id=None):
             hats = Hat.objects.all()
         else:
             location_href = f"/api/locations/{location_vo_id}/"
-            location = LocationVO.objects.get(import_href=location_href)
+            # location = LocationVO.objects.get(import_href=location_href)
+            locations = LocationVO.objects.filter(import_href=location_href)
+            if len(locations) == 0:
+                return JsonResponse(
+                    {"message": "invalid location id"}
+                )
+
             hats = Hat.objects.filter(location=location)
         return JsonResponse(
             {"hats": hats},
@@ -68,11 +74,9 @@ def api_hats(request, location_vo_id=None):
         except LocationVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid location id"},
-                status=400,
+                status=404,
             )
 
-        # photo = get_photo(content["color"], content["style"])
-        # content.update(photo)
         hat = Hat.objects.create(**content)
         return JsonResponse(
             hat,
@@ -83,6 +87,7 @@ def api_hats(request, location_vo_id=None):
 @require_http_methods(["GET", "DELETE"])
 def api_hat(request, id):
     if request.method == "GET":
+        #validation
         hat=Hat.objects.get(id=id)
         return JsonResponse(
             hat,

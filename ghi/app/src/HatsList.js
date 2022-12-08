@@ -1,6 +1,22 @@
 import { NavLink } from "react-router-dom";
 import {useEffect, useState} from 'react';
 
+
+const HatRow = (props) => {
+    const {hat, handleDelete} = props;
+    
+    return <tr key={hat.id}>
+        <td>{hat.color}</td>
+        <td>{hat.fabric}</td>
+        <td>{hat.style}</td>
+        <td><img src={hat.picture_url} className=" pic img-fluid"/></td>
+        <td>{hat.location.closet_name}</td>
+        <td>
+            <button className="btn btn-danger m-2" onClick={()=> {handleDelete(hat.id)}}>Delete</button>
+        </td>
+    </tr>
+}
+
 function HatsList() {
     const [hats, setHats] = useState([])
 
@@ -19,7 +35,7 @@ function HatsList() {
 
     useEffect(()=> {
         getData();
-      }, [])
+    }, [])
 
     return (
         <div>
@@ -35,20 +51,7 @@ function HatsList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {hats?.map(hat => {
-                        return (
-                            <tr key={hat.id}>
-                                <td>{hat.color}</td>
-                                <td>{hat.fabric}</td>
-                                <td>{hat.style}</td>
-                                <td><img src={hat.picture_url} className=" pic img-fluid"/></td>
-                                <td>{hat.location.closet_name}</td>
-                                <td>
-                                    <button className="btn btn-danger m-2" onClick={()=> {handleDelete(hat.id)}}>Delete</button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {hats?.map(hat => <HatRow hat={hat} handleDelete={handleDelete}/>)}
                 </tbody>
             </table>
             <NavLink className="btn btn-primary" id="new-hat-link" aria-current="page" to ="new-hat"> New Hat</NavLink>

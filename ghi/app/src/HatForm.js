@@ -1,22 +1,16 @@
 import React from 'react';
 
 class HatForm extends React.Component {
-
-    constructor(props) {
-        super(props)
-        this.state= {
-            fabric: '',
-            style: '',
-            color: '',
-            pictureUrl: '',
-            locations: [],
-        }
-        this.handlePictureUrlChange = this.handlePictureUrlChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    state = {
+      fabric: '',
+      style: '',
+      color: '',
+      pictureUrl: '',
+      locations: []
     }
 
-    async handleSubmit(event) {
+    // async handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault();
         const data = {...this.state};
         data.picture_url = data.pictureUrl
@@ -46,12 +40,12 @@ class HatForm extends React.Component {
         }
     }
 
-    handleInputChange(event) {
+    handleInputChange = (event) => {
         const value = event.target.value;
-        this.setState({[event.target.id]: value})
+        this.setState({[event.target.name]: value})
     }
 
-    handlePictureUrlChange(event) {
+    handlePictureUrlChange = (event) => {
         const value = event.target.value;
         this.setState({pictureUrl: value})
     }
@@ -87,19 +81,21 @@ class HatForm extends React.Component {
                       <label htmlFor="color">Color</label>
                     </div>
                     <div className="form-floating mb-3">
-                      <input onChange={this.handlePictureUrlChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="url" name="picture_url" id="picture_url" className="form-control" />
+                      <input onChange={this.handleInputChange} value={this.state.pictureUrl} placeholder="Picture URL" required type="url" name="picture_url" id="picture_url" className="form-control" />
                       <label htmlFor="picture_url">Picture URL</label>
                     </div>
                     <div className="mb-3">
                       <select onChange={this.handleInputChange} required id="location"  name="location" className="form-select">
                       <option value="">Choose a location</option>
-                          {this.state.locations?.map(location => {
+                          {
+                            this.state.locations?.map(location => {
                               return (
                                   <option key = {location.id} value={location.id}>
                                       {location.closet_name}
                                   </option>
                               )
-                              })};
+                            })
+                          }
                       </select>
                     </div>
                     <button className="btn btn-primary">Create</button>

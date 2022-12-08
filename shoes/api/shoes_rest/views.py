@@ -1,39 +1,9 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-# from .acls import get_photo
 import json
 
-from common.json import ModelEncoder
+from .encoders import ShoeListEncoder, ShoeDetailEncoder
 from .models import Shoe, BinVO
-
-# class BinVOListEncoder(ModelEncoder):
-#     model = BinVO
-#     properties = ["closet_name", "bin_number",]
-
-class BinVODetailEncoder(ModelEncoder):
-    model = BinVO
-    properties = ["closet_name", "bin_number", "bin_size", "import_href",]
-
-class ShoeListEncoder(ModelEncoder):
-    model = Shoe
-    properties = ["id","manufacturer","color","model_name","bin"]
-    encoders = {
-        "bin" : BinVODetailEncoder(),
-    }
-
-class ShoeDetailEncoder(ModelEncoder):
-    model = Shoe
-    properties = [
-        "id",
-        "manufacturer",
-        "color",
-        "model_name",
-        "bin",
-    ]
-    encoders = {
-        "bin" : BinVODetailEncoder(),
-    }
-
 
 @require_http_methods(["GET","POST"])
 def api_shoes(request, bin_vo_id=None):
@@ -44,15 +14,14 @@ def api_shoes(request, bin_vo_id=None):
             bin_href = f"/api/bins/{bin_vo_id}/"
             bin = BinVO.objects.get(import_href=bin_href)
             shoes = Shoe.objects.filter(bin=bin)
+
         return JsonResponse(
             {"shoes": shoes},
             encoder=ShoeListEncoder,
         )
     else:
         content = json.loads(request.body)
-        # photo = get_photo(content["color"], content["manufacturer"], content["model_name"])
-        # content.update(photo)
-
+        
         try:
             bin_href = f"/api/bins/{bin_vo_id}/"
             binVO = BinVO.objects.get(import_href=bin_href)
@@ -60,7 +29,7 @@ def api_shoes(request, bin_vo_id=None):
         except BinVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid bin id"},
-                status=400,
+                status=404,
             )
 
         shoe = Shoe.objects.create(**content)
